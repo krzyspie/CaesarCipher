@@ -1,13 +1,5 @@
 ﻿using System.Text;
 
-Console.WriteLine("Hello, lets encode your message!");
-Console.WriteLine("Type your message:");
-string messageToEncode = Console.ReadLine();
-Console.WriteLine("Enter the algorithm shift:");
-string shift = Console.ReadLine();
-
-int.TryParse(shift, out int letterShift);
-
 Dictionary<int, char> aplhabetMap = new Dictionary<int, char>()
 {
     { 0, 'a' },
@@ -38,9 +30,13 @@ Dictionary<int, char> aplhabetMap = new Dictionary<int, char>()
     { 25, 'z' },
 };
 
+Console.WriteLine("Hello, lets encode your message!");
+
+string messageToEncode = GetMessageToEncode();
+
+int algorithmShift = GetAlgorithmShift(aplhabetMap);
+
 StringBuilder encodedMessage = new StringBuilder();
-
-
 foreach (var stringCharacter in messageToEncode)
 {
     char encodedLetter = stringCharacter;
@@ -48,10 +44,38 @@ foreach (var stringCharacter in messageToEncode)
     if (aplhabetMap.ContainsValue(stringCharacter))
     {
         var letterKey = aplhabetMap.FirstOrDefault(y => y.Value == stringCharacter).Key;
-        encodedLetter = aplhabetMap[letterKey + letterShift];
+        var encodedLetterKey = 26 + (letterKey + algorithmShift);
+        encodedLetter = aplhabetMap[encodedLetterKey % aplhabetMap.Count];
     }
 
     encodedMessage.Append(encodedLetter);
 }
 
 Console.WriteLine(encodedMessage.ToString());
+
+static string GetMessageToEncode()
+{
+    string message = string.Empty;
+    while (string.IsNullOrWhiteSpace(message))
+    {
+        Console.WriteLine("Type your message:");
+        message = Console.ReadLine();
+    }
+
+    return message;
+}
+
+static int GetAlgorithmShift(Dictionary<int, char> aplhabetMap)
+{
+    int algorithmShift = 0;
+    bool isNumber = false;
+    while (!isNumber)
+    {
+        Console.WriteLine("Enter the algorithm shift:");
+        string shiftGivenByTheUser = Console.ReadLine();
+        isNumber = int.TryParse(shiftGivenByTheUser, out int parsedUserShift);
+        algorithmShift = parsedUserShift % aplhabetMap.Count;
+    }
+
+    return algorithmShift;
+}
