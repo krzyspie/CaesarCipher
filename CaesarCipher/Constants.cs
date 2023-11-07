@@ -1,10 +1,8 @@
-﻿using System.Collections.ObjectModel;
-
-namespace CaesarCipher
+﻿namespace CaesarCipher
 {
     internal static class Constants
     {
-        internal ReadOnlyDictionary<int, char> aplhabetMap = new ReadOnlyDictionary<int, char>()
+        internal static Dictionary<int, char> aplhabetMap = new()
         {
             { 0, 'a' },
             { 1, 'b' },
