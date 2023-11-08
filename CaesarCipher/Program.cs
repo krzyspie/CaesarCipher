@@ -1,5 +1,4 @@
 ﻿using CaesarCipher;
-using System.Text;
 
 Console.WriteLine("Hello, lets encode your message!");
 
@@ -7,22 +6,9 @@ string messageToEncode = GetMessageToEncode();
 
 int algorithmShift = GetAlgorithmShift(Constants.aplhabetMap);
 
-StringBuilder encodedMessage = new StringBuilder();
-foreach (var stringCharacter in messageToEncode)
-{
-    char encodedLetter = stringCharacter;
+AlgorithmService algorithmService = new();
 
-    if (Constants.aplhabetMap.ContainsValue(stringCharacter))
-    {
-        var letterKey = Constants.aplhabetMap.FirstOrDefault(y => y.Value == stringCharacter).Key;
-        var encodedLetterKey = 26 + (letterKey + algorithmShift);
-        encodedLetter = Constants.aplhabetMap[encodedLetterKey % Constants.aplhabetMap.Count];
-    }
-
-    encodedMessage.Append(encodedLetter);
-}
-
-Console.WriteLine(encodedMessage.ToString());
+Console.WriteLine(algorithmService.Encode(messageToEncode, algorithmShift));
 
 static string GetMessageToEncode()
 {
