@@ -2,11 +2,11 @@
 
 namespace CaesarCipher
 {
-    internal class AlgorithmService
+    public class AlgorithmService
     {
-        internal string Encode(string messageToEncode, int algorithmShift)
+        public string Encode(string messageToEncode, int algorithmShift)
         {
-            StringBuilder encodedMessage = new StringBuilder();
+            StringBuilder encodedMessage = new();
             foreach (var stringCharacter in messageToEncode)
             {
                 char encodedLetter = stringCharacter;
