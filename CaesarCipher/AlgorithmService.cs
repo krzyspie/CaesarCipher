@@ -6,6 +6,7 @@ namespace CaesarCipher
     {
         public string Encode(string messageToEncode, int algorithmShift)
         {
+            var shiftToApply = algorithmShift % Constants.aplhabetMap.Count;
             StringBuilder encodedMessage = new();
             foreach (var stringCharacter in messageToEncode)
             {
@@ -14,7 +15,7 @@ namespace CaesarCipher
                 if (Constants.aplhabetMap.ContainsValue(stringCharacter))
                 {
                     var letterKey = Constants.aplhabetMap.FirstOrDefault(y => y.Value == stringCharacter).Key;
-                    var encodedLetterKey = 26 + (letterKey + algorithmShift);
+                    var encodedLetterKey = Constants.aplhabetMap.Count + (letterKey + shiftToApply);
                     encodedLetter = Constants.aplhabetMap[encodedLetterKey % Constants.aplhabetMap.Count];
                 }
 
