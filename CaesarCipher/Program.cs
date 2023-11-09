@@ -8,7 +8,8 @@ int algorithmShift = GetAlgorithmShift(Constants.aplhabetMap);
 
 AlgorithmService algorithmService = new();
 
-Console.WriteLine(algorithmService.Encode(messageToEncode, algorithmShift));
+string encidedMessage = algorithmService.Encode(messageToEncode, algorithmShift);
+Console.WriteLine(encidedMessage);
 
 static string GetMessageToEncode()
 {

@@ -7,20 +7,26 @@ namespace CaesarCipher
         public string Encode(string messageToEncode, int algorithmShift)
         {
             var shiftToApply = algorithmShift % Constants.aplhabetMap.Count;
+
             StringBuilder encodedMessage = new();
+
             foreach (var stringCharacter in messageToEncode)
             {
-                char encodedLetter = stringCharacter;
+                char encodedCharacter = stringCharacter;
 
-                if (Constants.aplhabetMap.ContainsValue(stringCharacter))
+                var isUpper = char.IsUpper(encodedCharacter);
+
+                var characterToCheck = char.ToLower(stringCharacter);
+                if (Constants.aplhabetMap.ContainsValue(characterToCheck))
                 {
-                    var letterKey = Constants.aplhabetMap.FirstOrDefault(y => y.Value == stringCharacter).Key;
-                    var encodedLetterKey = Constants.aplhabetMap.Count + (letterKey + shiftToApply);
-                    encodedLetter = Constants.aplhabetMap[encodedLetterKey % Constants.aplhabetMap.Count];
+                    var characterKey = Constants.aplhabetMap.FirstOrDefault(y => y.Value == characterToCheck).Key;
+                    var encodedCharacterKey = Constants.aplhabetMap.Count + characterKey + shiftToApply;
+                    encodedCharacter = Constants.aplhabetMap[encodedCharacterKey % Constants.aplhabetMap.Count];
                 }
 
-                encodedMessage.Append(encodedLetter);
+                encodedMessage.Append(isUpper ? char.ToUpper(encodedCharacter) : encodedCharacter);
             }
+
             return encodedMessage.ToString();
         }
     }
