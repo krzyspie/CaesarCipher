@@ -6,8 +6,15 @@ namespace CaesarCipher
     {
         public string Encode(string messageToEncode, int algorithmShift)
         {
-            var shiftToApply = algorithmShift % Constants.aplhabetMap.Count;
+            var shiftToApply = CalculateShift(algorithmShift);
 
+            string encodedMessage = EncodeMessage(messageToEncode, shiftToApply);
+
+            return encodedMessage;
+        }
+
+        private string EncodeMessage(string messageToEncode, int shiftToApply)
+        {
             StringBuilder encodedMessage = new();
 
             foreach (var stringCharacter in messageToEncode)
@@ -20,14 +27,25 @@ namespace CaesarCipher
                 if (Constants.aplhabetMap.ContainsValue(characterToCheck))
                 {
                     var characterKey = Constants.aplhabetMap.FirstOrDefault(y => y.Value == characterToCheck).Key;
-                    var encodedCharacterKey = Constants.aplhabetMap.Count + characterKey + shiftToApply;
-                    encodedCharacter = Constants.aplhabetMap[encodedCharacterKey % Constants.aplhabetMap.Count];
+                    int encodedCharacterKey = CalculateEncodedCharacterKey(characterKey, shiftToApply);
+                    encodedCharacter = Constants.aplhabetMap[encodedCharacterKey];
                 }
 
                 encodedMessage.Append(isUpper ? char.ToUpper(encodedCharacter) : encodedCharacter);
             }
 
             return encodedMessage.ToString();
+        }
+
+        private int CalculateShift(int shift)
+        {
+            return shift % Constants.aplhabetMap.Count;
+        }
+
+        private int CalculateEncodedCharacterKey(int characterKey, int shift)
+        {
+            var encodedCharacterKey = Constants.aplhabetMap.Count + characterKey + shift;
+            return CalculateShift(encodedCharacterKey);
         }
     }
 }
