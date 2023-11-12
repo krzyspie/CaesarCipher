@@ -9,7 +9,7 @@ namespace CaesarCipher.Tests
         [InlineData(90, "Fqef Yqeemsq!")]
         [InlineData(-9, "Kvjk Dvjjrxv!")]
         [InlineData(-62, "Juij Cuiiqwu!")]
-        public void Test1(int shift, string expectedResult)
+        public void EncodeMessage_ShiftAndMessageProvided(int shift, string expectedResult)
         {
             //Arrenge
             string message = "Test Message!";
@@ -21,6 +21,19 @@ namespace CaesarCipher.Tests
 
             //Assert
             Assert.Equal(expectedResult, result);
+        }
+
+        [Fact]
+        public void EmptyMessage_MessageNotProvided()
+        {
+            //Arrenge
+            AlgorithmService service = new();
+
+            //Act
+            string result = service.Encode(string.Empty, 2);
+
+            //Assert
+            Assert.Equal(string.Empty, result);
         }
     }
 }
